@@ -24,7 +24,6 @@
 #include "player.h"
 #include "pyplaylist.h"
 #include "keyboard.h"
-#include "storage/IoSupport.h"
 #ifndef _LINUX
 #include <ConIo.h>
 #endif
@@ -57,6 +56,7 @@
 #include "pyrendercapture.h"
 #include "monitor.h"
 #include "URL.h"
+#include "storage/MediaManager.h"
 
 // include for constants
 #include "pyutil.h"
@@ -425,7 +425,7 @@ namespace PYXBMC
 
   PyObject* XBMC_GetDVDState(PyObject *self, PyObject *args)
   {
-    return PyInt_FromLong(CIoSupport::GetTrayState());
+    return PyInt_FromLong(g_mediaManager.GetDriveStatus());
   }
 
   // getFreeMem() method

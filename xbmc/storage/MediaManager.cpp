@@ -22,7 +22,6 @@
 #include "system.h"
 #include "MediaManager.h"
 #include "guilib/LocalizeStrings.h"
-#include "IoSupport.h"
 #include "URL.h"
 #include "utils/URIUtils.h"
 #ifdef _WIN32
@@ -619,7 +618,7 @@ bool CMediaManager::Eject(CStdString mountpath)
 HRESULT CMediaManager::EjectTray( const bool bEject, const char cDriveLetter )
 {
 #ifdef HAS_DVD_DRIVE
-#ifdef _WIN32
+#ifdef TARGET_WINDOWS
   return CWIN32Util::EjectTray(cDriveLetter);
 #else
   CLibcdio *c_cdio = CLibcdio::GetInstance();
@@ -640,6 +639,43 @@ HRESULT CMediaManager::EjectTray( const bool bEject, const char cDriveLetter )
 #endif
 #endif
   return S_OK;
+}
+
+HRESULT CMediaManager::CloseTray(const char cDriveLetter)
+{
+#ifdef HAS_DVD_DRIVE
+#if defined(TARGET_DARWIN)
+  // FIXME...
+#elif defined(__FreeBSD__)
+  // NYI
+#elif defined(_LINUX)
+  char* dvdDevice = CLibcdio::GetInstance()->GetDeviceFileName();
+  if (strlen(dvdDevice) != 0)
+  {
+    int fd = open(dvdDevice, O_RDONLY | O_NONBLOCK);
+    if (fd >= 0)
+    {
+      ioctl(fd, CDROMCLOSETRAY, 0);
+      close(fd);
+    }
+  }
+#elif defined(TARGET_WINDOWS)
+  return CWIN32Util::CloseTray(cDriveLetter);
+#endif
+#endif
+  return S_OK;
+}
+
+HRESULT CMediaManager::ToggleTray(const char cDriveLetter)
+{
+#if defined(TARGET_WINDOWS)
+  return CWIN32Util::ToggleTray(cDriveLetter);
+#else
+  if (GetDriveStatus() == TRAY_OPEN || GetDriveStatus() == DRIVE_OPEN)
+    return CloseTray();
+  else
+    return EjectTray();
+#endif
 }
 
 void CMediaManager::ProcessEvents()
