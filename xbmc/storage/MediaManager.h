@@ -22,9 +22,6 @@
 
 #include "MediaSource.h" // for VECSOURCES
 #include <map>
-#ifdef HAS_DVD_DRIVE
-#include "cdioSupport.h"
-#endif
 #include "utils/Job.h"
 #include "IStorageProvider.h"
 #include "threads/CriticalSection.h"

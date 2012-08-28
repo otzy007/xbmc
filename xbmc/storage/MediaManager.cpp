@@ -31,7 +31,6 @@
 #endif
 #include "guilib/GUIWindowManager.h"
 #ifdef HAS_DVD_DRIVE
-#include "cdioSupport.h"
 #ifndef _WIN32
 // TODO: switch all ports to use auto sources
 #include "DetectDVDType.h"
@@ -100,11 +99,7 @@ void CMediaManager::Initialize()
     #endif
   }
 #ifdef HAS_DVD_DRIVE
-#if defined(TARGET_WINDOWS)
-  m_strFirstAvailDrive = CWIN32Util::GetFirstOpticalDrive();
-#else
-  m_strFirstAvailDrive = MEDIA_DETECT::CLibcdio::GetInstance()->GetDeviceFileName();
-#endif
+  m_strFirstAvailDrive = m_platformStorage->GetFirstOpticalDeviceFileName();
 #endif
   m_platformStorage->Initialize();
 }
