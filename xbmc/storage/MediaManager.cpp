@@ -616,6 +616,32 @@ bool CMediaManager::Eject(CStdString mountpath)
   return m_platformStorage->Eject(mountpath);
 }
 
+HRESULT CMediaManager::EjectTray( const bool bEject, const char cDriveLetter )
+{
+#ifdef HAS_DVD_DRIVE
+#ifdef _WIN32
+  return CWIN32Util::EjectTray(cDriveLetter);
+#else
+  CLibcdio *c_cdio = CLibcdio::GetInstance();
+  char* dvdDevice = c_cdio->GetDeviceFileName();
+  m_isoReader.Reset();
+  int nRetries=2;
+  while (nRetries-- > 0)
+  {
+    CdIo_t* cdio = c_cdio->cdio_open(dvdDevice, DRIVER_UNKNOWN);
+    if (cdio)
+    {
+      c_cdio->cdio_eject_media(&cdio);
+      c_cdio->cdio_destroy(cdio);
+    }
+    else
+      break;
+  }
+#endif
+#endif
+  return S_OK;
+}
+
 void CMediaManager::ProcessEvents()
 {
   CSingleLock lock(m_CritSecStorageProvider);

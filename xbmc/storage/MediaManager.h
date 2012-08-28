@@ -74,6 +74,7 @@ public:
   void SetHasOpticalDrive(bool bstatus);
 
   bool Eject(CStdString mountpath);
+  HRESULT EjectTray( const bool bEject=true, const char cDriveLetter='\0' );
 
   void ProcessEvents();
 

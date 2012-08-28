@@ -54,7 +54,6 @@ public:
   static VOID GetXbePath(char* szDest);
 
   static DWORD   GetTrayState();
-  static HRESULT EjectTray( const bool bEject=true, const char cDriveLetter='\0' );
   static HRESULT CloseTray();
   static HRESULT ToggleTray();
 
