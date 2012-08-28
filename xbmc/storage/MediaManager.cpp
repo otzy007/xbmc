@@ -668,6 +668,7 @@ HRESULT CMediaManager::CloseTray(const char cDriveLetter)
 
 HRESULT CMediaManager::ToggleTray(const char cDriveLetter)
 {
+#ifdef HAS_DVD_DRIVE
 #if defined(TARGET_WINDOWS)
   return CWIN32Util::ToggleTray(cDriveLetter);
 #else
@@ -676,6 +677,8 @@ HRESULT CMediaManager::ToggleTray(const char cDriveLetter)
   else
     return EjectTray();
 #endif
+#endif
+  return S_OK;
 }
 
 void CMediaManager::ProcessEvents()
