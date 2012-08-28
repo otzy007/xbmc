@@ -615,11 +615,11 @@ bool CMediaManager::Eject(CStdString mountpath)
   return m_platformStorage->Eject(mountpath);
 }
 
-HRESULT CMediaManager::EjectTray( const bool bEject, const char cDriveLetter )
+void CMediaManager::EjectTray( const bool bEject, const char cDriveLetter )
 {
 #ifdef HAS_DVD_DRIVE
 #ifdef TARGET_WINDOWS
-  return CWIN32Util::EjectTray(cDriveLetter);
+  CWIN32Util::EjectTray(cDriveLetter);
 #else
   CLibcdio *c_cdio = CLibcdio::GetInstance();
   char* dvdDevice = c_cdio->GetDeviceFileName();
@@ -638,10 +638,10 @@ HRESULT CMediaManager::EjectTray( const bool bEject, const char cDriveLetter )
   }
 #endif
 #endif
-  return S_OK;
+  return;
 }
 
-HRESULT CMediaManager::CloseTray(const char cDriveLetter)
+void CMediaManager::CloseTray(const char cDriveLetter)
 {
 #ifdef HAS_DVD_DRIVE
 #if defined(TARGET_DARWIN)
@@ -660,25 +660,25 @@ HRESULT CMediaManager::CloseTray(const char cDriveLetter)
     }
   }
 #elif defined(TARGET_WINDOWS)
-  return CWIN32Util::CloseTray(cDriveLetter);
+  CWIN32Util::CloseTray(cDriveLetter);
 #endif
 #endif
-  return S_OK;
+  return;
 }
 
-HRESULT CMediaManager::ToggleTray(const char cDriveLetter)
+void CMediaManager::ToggleTray(const char cDriveLetter)
 {
 #ifdef HAS_DVD_DRIVE
 #if defined(TARGET_WINDOWS)
-  return CWIN32Util::ToggleTray(cDriveLetter);
+  CWIN32Util::ToggleTray(cDriveLetter);
 #else
   if (GetDriveStatus() == TRAY_OPEN || GetDriveStatus() == DRIVE_OPEN)
-    return CloseTray();
+    CloseTray();
   else
-    return EjectTray();
+    EjectTray();
 #endif
 #endif
-  return S_OK;
+  return;
 }
 
 void CMediaManager::ProcessEvents()

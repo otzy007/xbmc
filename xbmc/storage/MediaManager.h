@@ -85,9 +85,9 @@ public:
   void SetHasOpticalDrive(bool bstatus);
 
   bool Eject(CStdString mountpath);
-  HRESULT EjectTray( const bool bEject=true, const char cDriveLetter='\0' );
-  HRESULT CloseTray(const char cDriveLetter='\0');
-  HRESULT ToggleTray(const char cDriveLetter='\0');
+  void EjectTray( const bool bEject=true, const char cDriveLetter='\0' );
+  void CloseTray(const char cDriveLetter='\0');
+  void ToggleTray(const char cDriveLetter='\0');
 
   void ProcessEvents();
 
