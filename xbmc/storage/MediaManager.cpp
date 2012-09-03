@@ -639,7 +639,6 @@ void CMediaManager::EjectTray( const bool bEject, const char cDriveLetter )
   }
 #endif
 #endif
-  return;
 }
 
 void CMediaManager::CloseTray(const char cDriveLetter)
@@ -664,7 +663,6 @@ void CMediaManager::CloseTray(const char cDriveLetter)
   CWIN32Util::CloseTray(cDriveLetter);
 #endif
 #endif
-  return;
 }
 
 void CMediaManager::ToggleTray(const char cDriveLetter)
@@ -679,7 +677,6 @@ void CMediaManager::ToggleTray(const char cDriveLetter)
     EjectTray();
 #endif
 #endif
-  return;
 }
 
 void CMediaManager::ProcessEvents()
