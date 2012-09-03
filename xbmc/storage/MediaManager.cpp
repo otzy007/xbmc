@@ -33,6 +33,7 @@
 #ifndef _WIN32
 // TODO: switch all ports to use auto sources
 #include "DetectDVDType.h"
+#include "filesystem/iso9660.h"
 #endif
 #endif
 #include "Autorun.h"
