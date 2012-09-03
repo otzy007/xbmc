@@ -45,7 +45,14 @@ public:
 
   virtual void GetLocalDrives(VECSOURCES &localDrives) = 0;
   virtual void GetRemovableDrives(VECSOURCES &removableDrives) = 0;
-  virtual std::string GetFirstOpticalDeviceFileName() {return std::string(MEDIA_DETECT::CLibcdio::GetInstance()->GetDeviceFileName());}
+  virtual std::string GetFirstOpticalDeviceFileName() 
+  {
+#ifdef HAS_DVD_DRIVE
+    return std::string(MEDIA_DETECT::CLibcdio::GetInstance()->GetDeviceFileName());
+#else
+    return "";
+#endif
+  }
 
   virtual bool Eject(CStdString mountpath) = 0;
 
