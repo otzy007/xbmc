@@ -59,6 +59,8 @@
 #include "android/AndroidStorageProvider.h"
 #elif defined(_LINUX)
 #include "linux/LinuxStorageProvider.h"
+#include <sys/ioctl.h>
+#include <linux/cdrom.h>
 #elif _WIN32
 #include "windows/Win32StorageProvider.h"
 #endif
